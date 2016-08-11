@@ -1,0 +1,2 @@
+>>> from LibTuTalk import databaseToDataShop
+>>> databaseToDataShop("dialogue-history-nR2Ndgated.db")
