@@ -1,2 +1,35 @@
 >>> from LibTuTalk import databaseToDataShop
 >>> databaseToDataShop("dialogue-history-nR2Ndgated.db")
+
+
+select * from history where (history.step_type=="initiation" and history.string like "%[continue]%") or  (history.step_type=="initiation" and history.string like "%[eng_txt]%")
+
+UPDATE 'history' t1, 'history' t2
+set 
+
+your_table` t1, `your_table` t2
+SET t1.your_field = t2.your_field
+WHERE t1.other_field = some_condition
+AND t1.another_field = another_condition
+AND t2.source_id = 'explicit_value'
+
+update history t1, history t2
+SET t1.truth_values = t2.truth_values
+WHERE t1.speaker = "system"
+AND t2.speaker = 'student'
+AND t1.step_type = "initiation"
+AND t1.goal_index = t2.goal_index
+
+UPDATE history t1 history t2 
+SET truth_values = t2.truth_values 
+WHERE (t1.speaker == "system") AND (t2.speaker == 'student') AND (t1.step_type == "initiation") AND (t1.goal_index == t2.goal_index);
+
+
+
+UPDATE history
+SET truth_values = (SELECT truth_values from history as t2
+                where ((t2.speaker == 'student') AND (goal_index == t2.goal_index) AND (uid == t2.uid) AND (time == t2.time)));
+
+UPDATE history 
+SET truth_values = Destination.truth_values
+WHERE ((speaker == "system") AND (Destination.speaker == 'student') AND (step_type == "initiation") AND (goal_index == Destination.goal_index));

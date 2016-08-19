@@ -206,7 +206,7 @@ def databaseToDataShop(path, classinfo=None):
             </dataset>
       """ % locals()
 
-    with open('output-072516.xml', 'a') as the_file:
+    with open('output081916.xml', 'a') as the_file:
         header = u"""<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE tutor_related_message_sequence SYSTEM "http://learnlab.web.cmu.edu/dtd/tutor_message_v4.dtd">
 <tutor_related_message_sequence version_number="4">\n"""
@@ -257,6 +257,8 @@ def databaseToDataShop(path, classinfo=None):
                 goalname = str(row[colmap['goal_name']])
                 seqnum = 0
                 firstrow = True
+                
+
 
                 cm = u"""
     <context_message context_message_id="%(cmuuid)s" name="START_PROBLEM">
@@ -283,6 +285,7 @@ def databaseToDataShop(path, classinfo=None):
             ruuid = row[colmap['uuid']]
             rawString = row[colmap['string']]
             stepname = row[colmap['step_type']]
+            feedback = row[colmap['coverage']]
 
 
             if rawString is not None:
@@ -291,9 +294,15 @@ def databaseToDataShop(path, classinfo=None):
             if row[colmap['speaker']] == 'system':
                 tskill = ''
                 ae = ''
-                if truth is not None:
+                if row[colmap['truth_values']] is not None:
+                    truth = row[colmap['truth_values']]
                     ae = "\n\t\t\t<action_evaluation>%s</action_evaluation>" % truthDS(truth)
-                    truth = None
+                else:
+                    ae = "\n\t\t\t<action_evaluation>UNKNOWN</action_evaluation>"
+
+                #if truth is not None:
+                #    ae = "\n\t\t\t<action_evaluation>%s</action_evaluation>" % truthDS(truth)
+                #    truth = None
                 ta = ''
                 if rawString is not None:
                     ta = "\n\t\t\t<tutor_advice><![CDATA[%s]]></tutor_advice>" % rawString
@@ -304,11 +313,11 @@ def databaseToDataShop(path, classinfo=None):
                     kc_sql = "SELECT kc from kchistory WHERE uuid='%s';" % row[colmap['uuid']]
                     kc_res = curs.execute(kc_sql)
                     for kc_row in kc_res:
-                        print kc_row[0]
+                        #print kc_row[0]
                         stringskill = kc_row[0]
                         skill, category = stringskill.split(".")
-                        print skill
-                        print category
+                        #print skill
+                        #print category
 
                         #tskill = tskill + "\n\t\t\t<skill><name>%s</name><category>tutor turn</category></skill>" % kc_row[0]
                     tskill = tskill + "\n\t\t\t<skill><name>%s</name><category>tutor turn</category></skill>" % skill
@@ -391,52 +400,52 @@ def databaseToDataShop(path, classinfo=None):
 
 
                 seqnum = seqnum +1
-                if ((stepname == "initiation") and (if()))
-                message = u"""
-                <tool_message context_message_id="%(cmuuid)s">
-                    <meta>
-                      <user_id anonFlag="true">%(uid)s</user_id>
-                      <session_id>%(session)s</session_id>
-                      <time>%(t)s</time>
-                      <time_zone>%(tz)s</time_zone>
-                    </meta>
-                    <semantic_event transaction_id="%(ruuid)s" name="ATTEMPT"/>
-                    <event_descriptor>
-                      <selection>%(select)s</selection>
-                      <action>%(act)s</action>
-                      <input>%(stepname)s</input>
-                    </event_descriptor>
-                    <custom_field>
-                        <name>Concepts</name>
-                        <value>%(conc)s</value>
-                    </custom_field>
-                    <custom_field>
-                        <name>SeqID</name>
-                        <value>%(seqnum)s</value>
-                    </custom_field>
-                </tool_message>
-                <tutor_message context_message_id="%(cmuuid)s">
-                    <meta>
-                        <user_id anonFlag="true">%(uid)s</user_id>
-                        <session_id>%(session)s</session_id>
-                        <time>%(t)s</time>
-                        <time_zone>%(tz)s</time_zone>
-                    </meta>
-                    <semantic_event transaction_id="%(ruuid)s" name="RESULT" />
-                    <event_descriptor>
-                      <selection>%(select)s</selection>
-                      <action>%(act)s</action>
-                      <input>Press "Continue"</input>
-                    </event_descriptor>
-                    %(ta)s%(tskill)s%(sskill)s
-                    <custom_field>
-                        <name>SeqID</name>
-                        <value>%(seqnum)s</value>
-                    </custom_field>
+                if ((stepname == "initiation") and (("[ent_txt]" in ta) or ("[continue]" in ta))):
+                    message = u"""
+                    <tool_message context_message_id="%(cmuuid)s">
+                        <meta>
+                          <user_id anonFlag="true">%(uid)s</user_id>
+                          <session_id>%(session)s</session_id>
+                          <time>%(t)s</time>
+                          <time_zone>%(tz)s</time_zone>
+                        </meta>
+                        <semantic_event transaction_id="%(ruuid)s" name="ATTEMPT"/>
+                        <event_descriptor>
+                          <selection>%(select)s</selection>
+                          <action>%(act)s</action>
+                          <input>%(stepname)s</input>
+                        </event_descriptor>
+                        <custom_field>
+                            <name>Concepts</name>
+                            <value>%(conc)s</value>
+                        </custom_field>
+                        <custom_field>
+                            <name>SeqID</name>
+                            <value>%(seqnum)s</value>
+                        </custom_field>
+                    </tool_message>
+                    <tutor_message context_message_id="%(cmuuid)s">
+                        <meta>
+                            <user_id anonFlag="true">%(uid)s</user_id>
+                            <session_id>%(session)s</session_id>
+                            <time>%(t)s</time>
+                            <time_zone>%(tz)s</time_zone>
+                        </meta>
+                        <semantic_event transaction_id="%(ruuid)s" name="RESULT" />
+                        <event_descriptor>
+                          <selection>%(select)s</selection>
+                          <action>%(act)s</action>
+                          <input>Press "Continue"</input>
+                        </event_descriptor>
+                        %(ae)s%(ta)s%(tskill)s%(sskill)s
+                        <custom_field>
+                            <name>SeqID</name>
+                            <value>%(seqnum)s</value>
+                        </custom_field>
 
 
-                </tutor_message>
-                    """ % locals()
+                    </tutor_message>
+                        """ % locals()
                 tskill = ''
                 sskill = ''
 
@@ -454,7 +463,9 @@ def databaseToDataShop(path, classinfo=None):
                     skc_sql = "SELECT kc from kchistory WHERE uuid='%s';" % row[colmap['uuid']]
                     skc_res = curs_s.execute(skc_sql)
                     for skc_row in skc_res:
-                        sskill = sskill + "\t\t\t<skill><name>%s</name><category>student turn</category></skill>" % skc_row[0]
+                        ststringskill = skc_row[0]
+                        stskill, stcategory = ststringskill.split(".")
+                        sskill = sskill + "\t\t\t<skill><name>%s</name><category>student turn</category></skill>" % stskill
 
                 if rawString is not None:
                     toolstring = "<![CDATA[" + rawString + "]]>"
@@ -477,6 +488,7 @@ def databaseToDataShop(path, classinfo=None):
                 else:
                     conc = "None"
                 seqnum = seqnum + 1
+                ta = "\n\t\t\t<tutor_advice><![CDATA[%s]]></tutor_advice>" % feedback
                 message = u"""
                 <tool_message context_message_id="%(cmuuid)s">
                     <meta>
@@ -541,17 +553,17 @@ def databaseToDataShop(path, classinfo=None):
 
         result[uid] = sessions
 
-        with open('output-072516.xml', 'a') as the_file:
+        with open('output081916.xml', 'a') as the_file:
             for i in range(0, len(sessions)):
                 the_file.write(str(sessions[i]))
 
                 #print str(sessions[i])
 
 
-    with open('output-072516.xml', 'a') as the_file:
+    with open('output081916.xml', 'a') as the_file:
         the_file.write("</tutor_related_message_sequence>")
 
-    # print result  # to capture the intended output-072516
+    # print result  # to capture the intended output081116
 
     # return result
     return ("lalalala")
@@ -583,7 +595,7 @@ def truthDS(val):
 def runsc(path):
     """
   Runs sc on the .sc file at 'path'.
-  Returns a string with sc's output-072516 to STDERR,
+  Returns a string with sc's output081116 to STDERR,
   which will be empty if sc did not encounter any errors.
 
   Since this command uses the -q flag, if there are difficulty levels
