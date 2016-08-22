@@ -196,7 +196,7 @@ def databaseToDataShop(path, classinfo=None):
             cmclass = ''
     cmdataset = """
       <dataset>
-        <name>%(scenario)s</name>
+        <name>"matd-082216"</name>
         <level type="Scenario">
           <name>%(scenario)s</name>
           <problem tutorFlag="tutor">
@@ -206,7 +206,7 @@ def databaseToDataShop(path, classinfo=None):
             </dataset>
       """ % locals()
 
-    with open('output2.xml', 'a') as the_file:
+    with open('output082216-ALL.xml', 'a') as the_file:
         header = u"""<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE tutor_related_message_sequence SYSTEM "http://learnlab.web.cmu.edu/dtd/tutor_message_v4.dtd">
 <tutor_related_message_sequence version_number="4">\n"""
@@ -219,22 +219,28 @@ def databaseToDataShop(path, classinfo=None):
         # <!DOCTYPE tutor_related_message_sequence SYSTEM "http://learnlab.web.cmu.edu/dtd/tutor_message_v4.dtd">
 
         # <tutor_related_message_sequence version_number="4">\n"""
-        #uid = 'summary.cc.10'
+        # uid = 'summary.cc.10'
         sql = "SELECT * FROM history WHERE uid='%s' ORDER BY time, step_type DESC;" % uid
 
-        #sql = "SELECT * FROM history WHERE uid=%s ORDER BY time, step_type DESC;", ('summary.cc.10',)
+        # sql = "SELECT * FROM history WHERE uid=%s ORDER BY time, step_type DESC;", ('summary.cc.10',)
 
         curs = conn.cursor()
         curs_s = conn.cursor()
-        res = curs.execute(sql)
-        allres = res.fetchall()
-        #print(uid)
+        res = curs.execute(sql) #original command
 
-        #print(len(res.fetchall()))
+
+        #toexec = curs.execute(sql)
+        #res = toexec.fetchall()
+        allres = res.fetchall()
+        # print(uid)
+
+        # print(len(res.fetchall()))
 
 
         colmap = dict()
+        oldname = "something"
         cols = [col[0] for col in res.description]
+        #cols = [col[0] for col in res.description]
         for x in xrange(0, len(cols)):
             colmap[cols[x]] = x
         # colmap['uuid'] is now '0', the index of that named column
@@ -242,31 +248,20 @@ def databaseToDataShop(path, classinfo=None):
         concepts = None
         messageCount = 0
         firstrow = False
-        #print(uid)
+        # print(uid)
 
         for row in allres:
-
 
             if not firstrow:
                 cmuuid = uuidgen()
                 t = timeDS(row[colmap['time']])
                 tz = time.tzname[time.daylight]
                 goalname = str(row[colmap['goal_name']])
+
+
                 seqnum = 0
                 firstrow = True
 
-                cm = u"""
-    <context_message context_message_id="%(cmuuid)s" name="START_PROBLEM">
-        <meta>
-            <user_id anonFlag="true">%(uid)s</user_id>
-            <session_id>%(session)s</session_id>
-            <time>%(t)s</time>
-            <time_zone>%(tz)s</time_zone>
-        </meta>%(cmclass)s%(cmdataset)s
-    </context_message>
-    """ % locals()
-
-                xml += str(cm)
 
             message = ''
             st = row[colmap['step_type']]
@@ -280,6 +275,7 @@ def databaseToDataShop(path, classinfo=None):
             ruuid = row[colmap['uuid']]
             rawString = row[colmap['string']]
             stepname = row[colmap['step_type']]
+            feedback = row[colmap['coverage']]
 
             if rawString is not None:
                 rawString = cgi.escape(rawString)
@@ -287,132 +283,191 @@ def databaseToDataShop(path, classinfo=None):
             if row[colmap['speaker']] == 'system':
                 tskill = ''
                 ae = ''
-                if truth is not None:
+                if row[colmap['truth_values']] is not None:
+                    truth = row[colmap['truth_values']]
                     ae = "\n\t\t\t<action_evaluation>%s</action_evaluation>" % truthDS(truth)
-                    truth = None
+                else:
+                    ae = "\n\t\t\t<action_evaluation>UNKNOWN</action_evaluation>"
+
+                # if truth is not None:
+                #    ae = "\n\t\t\t<action_evaluation>%s</action_evaluation>" % truthDS(truth)
+                #    truth = None
                 ta = ''
                 if rawString is not None:
                     ta = "\n\t\t\t<tutor_advice><![CDATA[%s]]></tutor_advice>" % rawString
                 sem = row[colmap['sem']]
-                if sem is not None and sem != 'na':
-                    tskill = tskill + "\n\t\t\t<skill><name>%s</name><category>sem</category></skill>" % sem
-                else:
-                    tskill = tskill + "\n\t\t\t<skill><name>%s</name><category>None</category></skill>" % 'None'
                 tkclist = row[colmap['kclist']]
+
                 if tkclist is not None:
                     kc_sql = "SELECT kc from kchistory WHERE uuid='%s';" % row[colmap['uuid']]
                     kc_res = curs.execute(kc_sql)
                     for kc_row in kc_res:
-                        tskill = tskill + "\n\t\t\t<skill><name>%s</name><category>kc</category></skill>" % kc_row[0]
+                        # print kc_row[0]
+                        stringskill = kc_row[0]
+                        skill, category = stringskill.split(".")
+                        # print skill
+                        # print category
+
+                        # tskill = tskill + "\n\t\t\t<skill><name>%s</name><category>tutor turn</category></skill>" % kc_row[0]
+                    tskill = tskill + "\n\t\t\t<skill><name>%s</name><category>tutor turn</category></skill>" % skill
+
+                    # 250716-start editing
+                    # if sem is not None and sem != 'na':
+                    #    tskill = tskill + "\n\t\t\t<skill><name>%s</name><category>sem</category></skill>" % sem
+                    # else:
+                    # tskill = tskill + "\n\t\t\t<skill><name>%s</name><category>None</category></skill>" % 'None'
+                    # tkclist = row[colmap['kclist']]
+                    # if tkclist is not None:
+                    # kc_sql = "SELECT kc from kchistory WHERE uuid='%s';" % row[colmap['uuid']]
+                    # kc_res = curs.execute(kc_sql)
+                    # for kc_row in kc_res:
+                    # tskill = tskill + "\n\t\t\t<skill><name>%s</name><category>kc</category></skill>" % kc_row[0]
+                    # 250716-stop editing
+
                 # goal_name 	goal_index 	step_type 	step_index
                 goal = row[colmap['goal_name']]
 
                 concepts = row[colmap['concepts']]
                 # Because we need at least one semantic event
-                fullse=''
+                fullse = ''
                 if goal is None:
                     goal = 'na'
                     fullse = goal
-                #gse = '\n\t\t\t<semantic_event transaction_id="%s" name="goal_name">%s</semantic_event>' % (ruuid, goal)
+                # gse = '\n\t\t\t<semantic_event transaction_id="%s" name="goal_name">%s</semantic_event>' % (ruuid, goal)
 
 
                 gise = ''
                 goalname = row[colmap['goal_name']]
+                if (goalname is not None):
+                    longname = goalname.split("-")
+                    probname = str(longname[0])
+
                 goalindex = row[colmap['goal_index']]
                 if goalindex is not None:
                     fullse = fullse + "," + goalindex
                     gise = '\n\t\t\t<semantic_event transaction_id="%s" name="goal_index">%s</semantic_event>' % (
-                    ruuid, goalindex)
+                        ruuid, goalindex)
                 stse = ''
                 steptype = row[colmap['step_type']]
                 if steptype is not None:
                     fullse = fullse + "," + steptype
                     stse = '\n\t\t\t<semantic_event transaction_id="%s" name="step_type">%s</semantic_event>' % (
-                    ruuid, steptype)
+                        ruuid, steptype)
                 sise = ''
                 stepindex = row[colmap['step_index']]
                 if stepindex is not None:
                     fullse = fullse + "," + stepindex
                     sise = '\n\t\t\t<semantic_event transaction_id="%s" name="step_index">%s</semantic_event>' % (
-                    ruuid, stepindex)
+                        ruuid, stepindex)
 
                 interp = ''
 
-                select=''
-                act=''
+                select = ''
+                act = ''
                 if (goalname is not None):
                     select = goalname
                 else:
                     select = "undefined goal name"
 
                 if (stepindex is not None):
-                    act=stepindex
+                    act = stepindex
                 else:
-                    act="undefined step index"
+                    act = "undefined step index"
                 semev = '\n\t\t\t<semantic_event transaction_id="%s" name="Tutor Turn" />' % (
                     ruuid)
 
                 t = timeDS(row[colmap['time']])
                 if concepts is not None:
 
-                    conc = "<![CDATA[" + concepts +"]]>"
+                    conc = "<![CDATA[" + concepts + "]]>"
                 else:
                     conc = "None"
 
-                  #</meta>%(gse)s%(gise)s%(stse)s%(sise)s%(ae)s%(ta)s%(tskill)s%(sskill)s%(interp)s
-                #if truth is not None or rawString is not None or tskill or sskill:
+                    # </meta>%(gse)s%(gise)s%(stse)s%(sise)s%(ae)s%(ta)s%(tskill)s%(sskill)s%(interp)s
+                # if truth is not None or rawString is not None or tskill or sskill:
                 if rawString is not None:
-                    inputstring = "<![CDATA[" + rawString +"]]>"
+                    inputstring = "<![CDATA[" + rawString + "]]>"
                 else:
                     inputstring = ""
 
-                seqnum = seqnum +1
+                seqnum = seqnum + 1
+                if ((stepname == "initiation") and (("[ent_txt]" in ta) or ("[continue]" in ta))):
 
-                message = u"""
-                <tool_message context_message_id="%(cmuuid)s">
-                    <meta>
-                      <user_id anonFlag="true">%(uid)s</user_id>
-                      <session_id>%(session)s</session_id>
-                      <time>%(t)s</time>
-                      <time_zone>%(tz)s</time_zone>
-                    </meta>
-                    <semantic_event transaction_id="%(ruuid)s" name="ATTEMPT"/>
-                    <event_descriptor>
-                      <selection>%(select)s</selection>
-                      <action>%(act)s</action>
-                      <input>%(stepname)s</input>
-                    </event_descriptor>
-                    <custom_field>
-                        <name>Concepts</name>
-                        <value>%(conc)s</value>
-                    </custom_field>
-                    <custom_field>
-                        <name>SeqID</name>
-                        <value>%(seqnum)s</value>
-                    </custom_field>
-                </tool_message>
-                <tutor_message context_message_id="%(cmuuid)s">
-                    <meta>
-                        <user_id anonFlag="true">%(uid)s</user_id>
-                        <session_id>%(session)s</session_id>
-                        <time>%(t)s</time>
-                        <time_zone>%(tz)s</time_zone>
-                    </meta>
-                    <semantic_event transaction_id="%(ruuid)s" name="RESULT" />
-                    <event_descriptor>
-                      <selection>%(select)s</selection>
-                      <action>%(act)s</action>
-                      <input>Press "Continue"</input>
-                    </event_descriptor>
-                    %(ta)s%(tskill)s%(sskill)s
-                    <custom_field>
-                        <name>SeqID</name>
-                        <value>%(seqnum)s</value>
-                    </custom_field>
+                    if (probname != oldname):
+                        cmuuid = uuidgen() #get a new context message id
+                        cmdataset = """
+                                      <dataset>
+                                        <name>"matd-082216"</name>
+                                        <level type="Scenario">
+                                          <name>%(scenario)s</name>
+                                          <problem tutorFlag="tutor">
+                                            <name>%(probname)s</name>
+                                          </problem>
+                                            </level>
+                                            </dataset>
+                                      """ % locals()
+                        cm = u"""
+                        <context_message context_message_id="%(cmuuid)s" name="START_PROBLEM">
+                            <meta>
+                                <user_id anonFlag="true">%(uid)s</user_id>
+                                <session_id>%(session)s</session_id>
+                                <time>%(t)s</time>
+                                <time_zone>%(tz)s</time_zone>
+                            </meta>%(cmclass)s%(cmdataset)s
+                        </context_message>
+                        """ % locals()
+                        xml += str(cm)
+                        oldname = probname
+                    
+                        
+                        
 
 
-                </tutor_message>
-                    """ % locals()
+                    message = u"""
+                    <tool_message context_message_id="%(cmuuid)s">
+                        <meta>
+                          <user_id anonFlag="true">%(uid)s</user_id>
+                          <session_id>%(session)s</session_id>
+                          <time>%(t)s</time>
+                          <time_zone>%(tz)s</time_zone>
+                        </meta>
+                        <semantic_event transaction_id="%(ruuid)s" name="ATTEMPT"/>
+                        <event_descriptor>
+                          <selection>%(select)s</selection>
+                          <action>%(act)s</action>
+                          <input>%(stepname)s</input>
+                        </event_descriptor>
+                        <custom_field>
+                            <name>Concepts</name>
+                            <value>%(conc)s</value>
+                        </custom_field>
+                        <custom_field>
+                            <name>SeqID</name>
+                            <value>%(seqnum)s</value>
+                        </custom_field>
+                    </tool_message>
+                    <tutor_message context_message_id="%(cmuuid)s">
+                        <meta>
+                            <user_id anonFlag="true">%(uid)s</user_id>
+                            <session_id>%(session)s</session_id>
+                            <time>%(t)s</time>
+                            <time_zone>%(tz)s</time_zone>
+                        </meta>
+                        <semantic_event transaction_id="%(ruuid)s" name="RESULT" />
+                        <event_descriptor>
+                          <selection>%(select)s</selection>
+                          <action>%(act)s</action>
+                          <input>Press "Continue"</input>
+                        </event_descriptor>
+                        %(ae)s%(ta)s%(tskill)s%(sskill)s
+                        <custom_field>
+                            <name>SeqID</name>
+                            <value>%(seqnum)s</value>
+                        </custom_field>
+
+
+                    </tutor_message>
+                        """ % locals()
                 tskill = ''
                 sskill = ''
 
@@ -430,11 +485,12 @@ def databaseToDataShop(path, classinfo=None):
                     skc_sql = "SELECT kc from kchistory WHERE uuid='%s';" % row[colmap['uuid']]
                     skc_res = curs_s.execute(skc_sql)
                     for skc_row in skc_res:
-                        sskill = sskill + "\t\t\t<skill><name>%s</name><category>kc</category></skill>" % skc_row[0]
+                        ststringskill = skc_row[0]
+                        stskill, stcategory = ststringskill.split(".")
+                        sskill = sskill + "\t\t\t<skill><name>%s</name><category>student turn</category></skill>" % stskill
 
                 if rawString is not None:
                     toolstring = "<![CDATA[" + rawString + "]]>"
-
 
                 select = ''
                 act = ''
@@ -453,6 +509,7 @@ def databaseToDataShop(path, classinfo=None):
                 else:
                     conc = "None"
                 seqnum = seqnum + 1
+                ta = "\n\t\t\t<tutor_advice><![CDATA[%s]]></tutor_advice>" % feedback
                 message = u"""
                 <tool_message context_message_id="%(cmuuid)s">
                     <meta>
@@ -505,29 +562,26 @@ def databaseToDataShop(path, classinfo=None):
                 xml += message
                 messageCount += 1
 
+        # if not len(xml) and messageCount:
 
-        #if not len(xml) and messageCount:
-
-        #if not (whatever == "whatever") and messageCount:
+        # if not (whatever == "whatever") and messageCount:
         if not firstrow and messageCount:
             sessions.append(xml.encode('utf-8'))
-        #else:
-            #firstrow = False
-
+            # else:
+            # firstrow = False
 
         result[uid] = sessions
 
-        with open('output2.xml', 'a') as the_file:
+        with open('output082216-ALL.xml', 'a') as the_file:
             for i in range(0, len(sessions)):
                 the_file.write(str(sessions[i]))
 
-                #print str(sessions[i])
+                # print str(sessions[i])
 
-
-    with open('output2.xml', 'a') as the_file:
+    with open('output082216-ALL.xml', 'a') as the_file:
         the_file.write("</tutor_related_message_sequence>")
 
-    # print result  # to capture the intended output2
+    # print result  # to capture the intended output081116
 
     # return result
     return ("lalalala")
@@ -541,7 +595,7 @@ def timeDS(t):
 
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t))
 
-    #return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+    # return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
 
 
 def truthDS(val):
@@ -559,7 +613,7 @@ def truthDS(val):
 def runsc(path):
     """
   Runs sc on the .sc file at 'path'.
-  Returns a string with sc's output2 to STDERR,
+  Returns a string with sc's output081116 to STDERR,
   which will be empty if sc did not encounter any errors.
 
   Since this command uses the -q flag, if there are difficulty levels
