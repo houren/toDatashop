@@ -1,8 +1,7 @@
 #create new table as a copy of an existing one
 
-create table new_table as
-select * from existing_table
-
+create table orighistory as
+select * from history
 
 
 #update the outcome to apply to initiations

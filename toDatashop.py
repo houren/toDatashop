@@ -487,6 +487,8 @@ def databaseToDataShop(path, classinfo=None):
                     for skc_row in skc_res:
                         ststringskill = skc_row[0]
                         stskill, stcategory = ststringskill.split(".")
+
+                        stskill
                         sskill = sskill + "\t\t\t<skill><name>%s</name><category>student turn</category></skill>" % stskill
 
                 if rawString is not None:
@@ -606,7 +608,7 @@ def truthDS(val):
   CTAT does not :^\ ) so we just use capitalized versions of these
   but DS will not know how to evaluate them. They are legal but opaque.
   """
-    tvmap = {'yes': 'CORRECT', 'no': 'INCORRECT', 'partial': 'PARTIAL', 'unknown': 'UNKNOWN'}
+    tvmap = {'yes': 'CORRECT', 'no': 'INCORRECT', 'yes': 'PARTIAL', 'unknown': 'UNKNOWN'}
     return tvmap.get(val, 'UNKNOWN')
 
 
