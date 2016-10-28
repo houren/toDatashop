@@ -162,7 +162,7 @@ def databaseToHTML(conn=None, path=None, uid=None, fields=None, sql=None,
 
 
 # dbfields = ('uuid','time','uid','gid','speaker','goal_name','goal_index','step_type',
-#            'step_index','phrase_difficulty','recipe_difficulty','sem','string',
+#            'step_index','phrase_difficulty',='recipe_difficulty','sem','string',
 #            'normalized_string','matched_answer_string','concepts','truth_values',
 #            'coverage','obligations')
 
@@ -319,14 +319,19 @@ def databaseToDataShop(path, classinfo=None):
                     for kc_row in kc_res:
                         # print kc_row[0]
                         stringskill = kc_row[0]
+                        #print(stringskill)
                         pskill, category = stringskill.split(".")
 
+
+
                         if ((category == "c") or (category == "p") or (category == "t") or (category == "y")):
+
                             ae = "\n\t\t\t<action_evaluation>CORRECT</action_evaluation>"
                         elif ((category == "w") or (category == "b")):
                             ae = "\n\t\t\t<action_evaluation>INCORRECT</action_evaluation>"
                         else:
                             ae = "\n\t\t\t<action_evaluation>UNKNOWN</action_evaluation>"
+
 
 
 
@@ -423,7 +428,7 @@ def databaseToDataShop(path, classinfo=None):
                         cmuuid = uuidgen() #get a new context message id
                         cmdataset = """
                                       <dataset>
-                                        <name>"matd-082216"</name>
+                                        <name>"SuperKCs - nR2Ndgated"</name>
                                         <level type="Scenario">
                                           <name>%(scenario)s</name>
                                           <problem tutorFlag="tutor">
@@ -514,12 +519,14 @@ def databaseToDataShop(path, classinfo=None):
                         ststringskill = skc_row[0]
                         spskill, stcategory = ststringskill.split(".")
 
+
                         if ((stcategory == "c") or (stcategory == "p") or (stcategory == "t") or (stcategory == "y")):
                             ae = "\n\t\t\t<action_evaluation>CORRECT</action_evaluation>"
                         elif ((stcategory == "w") or (stcategory == "b")):
                             ae = "\n\t\t\t<action_evaluation>INCORRECT</action_evaluation>"
                         else:
                             ae = "\n\t\t\t<action_evaluation>UNKNOWN</action_evaluation>"
+
 
                         stskill = superKCList[spskill]
                         sskill = sskill + "\t\t\t<skill><name>%s</name><category>student turn</category></skill>" % stskill
