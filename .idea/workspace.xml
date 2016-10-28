@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ce315adc-718d-4209-805b-b7c99efc3e66" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/toDatashopSuperSkills.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output082216-ALL.xml" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/toDatashop-SKCinherit.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dialogue-history-nR2Ndgated.db" afterPath="$PROJECT_DIR$/dialogue-history-nR2Ndgated.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sqlqueries.txt" afterPath="$PROJECT_DIR$/sqlqueries.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/toDatashop.py" afterPath="$PROJECT_DIR$/toDatashop.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/toDatashopSuperSkills.py" afterPath="$PROJECT_DIR$/toDatashopSuperSkills.py" />
     </list>
     <ignored path="toDatashop.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,28 +31,58 @@
       <file leaf-file-name="LibTuTalkStudent.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LibTuTalkStudent.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9405">
-              <caret line="286" column="18" selection-start-line="286" selection-start-column="18" selection-end-line="286" selection-end-column="18" />
+            <state relative-caret-position="8151">
+              <caret line="248" column="0" selection-start-line="248" selection-start-column="0" selection-end-line="248" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="toDatashop.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="toDatashop.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/toDatashop.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="923">
-              <caret line="490" column="31" selection-start-line="490" selection-start-column="31" selection-end-line="490" selection-end-column="31" />
+            <state relative-caret-position="347">
+              <caret line="576" column="58" selection-start-line="576" selection-start-column="54" selection-end-line="576" selection-end-column="58" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="toDatashopSuperSkills.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="toDatashopSuperSkills.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/toDatashopSuperSkills.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2868">
-              <caret line="251" column="0" selection-start-line="251" selection-start-column="0" selection-end-line="251" selection-end-column="0" />
+            <state relative-caret-position="3878">
+              <caret line="258" column="38" selection-start-line="258" selection-start-column="38" selection-end-line="258" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="908">
+              <caret line="62" column="62" selection-start-line="62" selection-start-column="62" selection-end-line="62" selection-end-column="62" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="howtorun.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/howtorun.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="33">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="toDatashop-SKCinherit.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/toDatashop-SKCinherit.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="6963">
+              <caret line="212" column="31" selection-start-line="212" selection-start-column="31" selection-end-line="212" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -87,7 +117,10 @@
         <option value="$PROJECT_DIR$/collapsedLibTuTalk.py" />
         <option value="$PROJECT_DIR$/testLib.py" />
         <option value="$PROJECT_DIR$/toDatashop.py" />
+        <option value="$PROJECT_DIR$/toDatashop-SKCinherit.py" />
         <option value="$PROJECT_DIR$/toDatashopSuperSkills.py" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/howtorun.txt" />
       </list>
     </option>
   </component>
@@ -123,7 +156,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -144,12 +176,13 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="settings.editor.splitter.proportion" value="0.2403249" />
-    <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/GitHub/PortableGit_624c8416ee51e205b3f892d1d904e06e6f3c57c8/cmd/git.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="SearchEverywhereHistoryKey" value="increase&#9;ACTION&#9;EditorIncreaseFontSize" />
   </component>
   <component name="RecentsManager">
@@ -419,7 +452,14 @@
       <option name="project" value="LOCAL" />
       <updated>1472232182777</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="09/08/16&#10;SuperKCs - inherit outcome&#10;">
+      <created>1473354066812</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1473354066812</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -438,7 +478,8 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21831325" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32872927" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22191529" sideWeight="0.50096387" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40837938" sideWeight="0.49903613" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296501" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4106814" sideWeight="0.49903613" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22007367" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22191529" sideWeight="0.49903613" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24984127" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -451,7 +492,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -470,7 +510,8 @@
     <MESSAGE value="08112016&#10;" />
     <MESSAGE value="08/19/2016&#10;&#10;working version with feedback, skills, collapsed outcome&#10;" />
     <MESSAGE value="08/22/2016&#10;&#10;full working version @testLib&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="08/22/2016&#10;&#10;full working version @testLib&#10;" />
+    <MESSAGE value="09/08/16&#10;SuperKCs - inherit outcome&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="09/08/16&#10;SuperKCs - inherit outcome&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -491,9 +532,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/testLib.py" />
-    <entry file="file://$PROJECT_DIR$/LibTutTalkversionTwo.py" />
-    <entry file="file://$PROJECT_DIR$/LibTuTalk.py" />
     <entry file="file://$PROJECT_DIR$/testLib.py" />
     <entry file="file://$PROJECT_DIR$/LibTutTalkversionTwo.py" />
     <entry file="file://$PROJECT_DIR$/LibTuTalk.py" />
@@ -542,29 +580,53 @@
     <entry file="file://$PROJECT_DIR$/LibTutTalkversionTwo.py" />
     <entry file="file://$PROJECT_DIR$/LibTutTalk-v2.py" />
     <entry file="file://$PROJECT_DIR$/LibTuTalk.py" />
+    <entry file="file://$PROJECT_DIR$/collapsedLibTuTalk.py" />
+    <entry file="file://$PROJECT_DIR$/notes on transformation.txt" />
+    <entry file="file://$PROJECT_DIR$/testLib.py" />
     <entry file="file://$PROJECT_DIR$/LibTuTalkStudent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9405">
-          <caret line="286" column="18" selection-start-line="286" selection-start-column="18" selection-end-line="286" selection-end-column="18" />
+        <state relative-caret-position="8151">
+          <caret line="248" column="0" selection-start-line="248" selection-start-column="0" selection-end-line="248" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/collapsedLibTuTalk.py" />
-    <entry file="file://$PROJECT_DIR$/notes on transformation.txt" />
-    <entry file="file://$PROJECT_DIR$/testLib.py" />
-    <entry file="file://$PROJECT_DIR$/toDatashop.py">
+    <entry file="file://$PROJECT_DIR$/toDatashop-SKCinherit.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="923">
-          <caret line="490" column="31" selection-start-line="490" selection-start-column="31" selection-end-line="490" selection-end-column="31" />
+        <state relative-caret-position="6963">
+          <caret line="212" column="31" selection-start-line="212" selection-start-column="31" selection-end-line="212" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="908">
+          <caret line="62" column="62" selection-start-line="62" selection-start-column="62" selection-end-line="62" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/howtorun.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="33">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/toDatashopSuperSkills.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2868">
-          <caret line="251" column="0" selection-start-line="251" selection-start-column="0" selection-end-line="251" selection-end-column="0" />
+        <state relative-caret-position="3878">
+          <caret line="258" column="38" selection-start-line="258" selection-start-column="38" selection-end-line="258" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/toDatashop.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="576" column="58" selection-start-line="576" selection-start-column="54" selection-end-line="576" selection-end-column="58" />
           <folding />
         </state>
       </provider>

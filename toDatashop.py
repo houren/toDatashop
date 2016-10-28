@@ -488,7 +488,7 @@ def databaseToDataShop(path, classinfo=None):
                         ststringskill = skc_row[0]
                         stskill, stcategory = ststringskill.split(".")
 
-                        stskill
+
                         sskill = sskill + "\t\t\t<skill><name>%s</name><category>student turn</category></skill>" % stskill
 
                 if rawString is not None:

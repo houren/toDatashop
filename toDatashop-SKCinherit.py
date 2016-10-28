@@ -183,7 +183,6 @@ def databaseToDataShop(path, classinfo=None):
     sskill = ''
     # Expand the classinfo into <class> XML
     cmclass = ''
-    category = ''
     superKCList = dict({"1": "r15", "2": "r13", "3": "r1", "4": "r13", "5": "r1", "6": "r12", "7": "r12", "8": "r13",
                         "9": "r4", "10": "r7", "11": "r15", "12": "r13", "13": "r15", "14": "r13", "15": "r18",
                         "16": "r20", "17": "r20",
@@ -211,7 +210,7 @@ def databaseToDataShop(path, classinfo=None):
             cmclass = ''
     cmdataset = """
       <dataset>
-        <name>"KCinDyn"</name>
+        <name>"KCinDyn-SuperKCs"</name>
         <level type="Scenario">
           <name>%(scenario)s</name>
           <problem tutorFlag="tutor">
@@ -241,11 +240,10 @@ def databaseToDataShop(path, classinfo=None):
 
         curs = conn.cursor()
         curs_s = conn.cursor()
-        res = curs.execute(sql) #original command
+        res = curs.execute(sql)  # original command
 
-
-        #toexec = curs.execute(sql)
-        #res = toexec.fetchall()
+        # toexec = curs.execute(sql)
+        # res = toexec.fetchall()
         allres = res.fetchall()
         # print(uid)
 
@@ -255,7 +253,7 @@ def databaseToDataShop(path, classinfo=None):
         colmap = dict()
         oldname = "something"
         cols = [col[0] for col in res.description]
-        #cols = [col[0] for col in res.description]
+        # cols = [col[0] for col in res.description]
         for x in xrange(0, len(cols)):
             colmap[cols[x]] = x
         # colmap['uuid'] is now '0', the index of that named column
@@ -273,10 +271,8 @@ def databaseToDataShop(path, classinfo=None):
                 tz = time.tzname[time.daylight]
                 goalname = str(row[colmap['goal_name']])
 
-
                 seqnum = 0
                 firstrow = True
-
 
             message = ''
             st = row[colmap['step_type']]
@@ -298,10 +294,10 @@ def databaseToDataShop(path, classinfo=None):
             if row[colmap['speaker']] == 'system':
                 tskill = ''
                 ae = ''
-                #if row[colmap['truth_values']] is not None:
+                # if row[colmap['truth_values']] is not None:
                 #    truth = row[colmap['truth_values']]
                 #    ae = "\n\t\t\t<action_evaluation>%s</action_evaluation>" % truthDS(truth)
-                #else:
+                # else:
                 #    ae = "\n\t\t\t<action_evaluation>UNKNOWN</action_evaluation>"
 
                 # if truth is not None:
@@ -328,13 +324,11 @@ def databaseToDataShop(path, classinfo=None):
                         else:
                             ae = "\n\t\t\t<action_evaluation>UNKNOWN</action_evaluation>"
 
-
-
-                        #skill = superKCList.keys()[superKCList.values().index(str(('"')+ pskill)+('"'))]
+                        # skill = superKCList.keys()[superKCList.values().index(str(('"')+ pskill)+('"'))]
                         skill = superKCList[pskill]
 
 
-                         # tskill = tskill + "\n\t\t\t<skill><name>%s</name><category>tutor turn</category></skill>" % kc_row[0]
+                        # tskill = tskill + "\n\t\t\t<skill><name>%s</name><category>tutor turn</category></skill>" % kc_row[0]
                     tskill = tskill + "\n\t\t\t<skill><name>%s</name><category>tutor turn</category></skill>" % skill
 
                     # 250716-start editing
@@ -420,7 +414,7 @@ def databaseToDataShop(path, classinfo=None):
                 if ((stepname == "initiation") and (("[ent_txt]" in ta) or ("[continue]" in ta))):
 
                     if (probname != oldname):
-                        cmuuid = uuidgen() #get a new context message id
+                        cmuuid = uuidgen()  # get a new context message id
                         cmdataset = """
                                       <dataset>
                                         <name>"matd-082216"</name>
@@ -444,10 +438,6 @@ def databaseToDataShop(path, classinfo=None):
                         """ % locals()
                         xml += str(cm)
                         oldname = probname
-                    
-                        
-                        
-
 
                     message = u"""
                     <tool_message context_message_id="%(cmuuid)s">
@@ -502,9 +492,9 @@ def databaseToDataShop(path, classinfo=None):
 
                 sskill = ''
                 concepts = row[colmap['concepts']]
-                #if row[colmap['truth_values']] is not None:
-                 #   truth = row[colmap['truth_values']]
-                  #  ae = "\n\t\t\t<action_evaluation>%s</action_evaluation>" % truthDS(truth)
+                # if row[colmap['truth_values']] is not None:
+                #   truth = row[colmap['truth_values']]
+                #  ae = "\n\t\t\t<action_evaluation>%s</action_evaluation>" % truthDS(truth)
 
                 skclist = row[colmap['kclist']]
                 if skclist is not None:
@@ -514,9 +504,9 @@ def databaseToDataShop(path, classinfo=None):
                         ststringskill = skc_row[0]
                         spskill, stcategory = ststringskill.split(".")
 
-                        if ((stcategory == "c") or (stcategory == "p") or (stcategory == "t") or (stcategory == "y")):
+                        if ((category == "c") or (category == "p") or (category == "t") or (category == "y")):
                             ae = "\n\t\t\t<action_evaluation>CORRECT</action_evaluation>"
-                        elif ((stcategory == "w") or (stcategory == "b")):
+                        elif ((category == "w") or (category == "b")):
                             ae = "\n\t\t\t<action_evaluation>INCORRECT</action_evaluation>"
                         else:
                             ae = "\n\t\t\t<action_evaluation>UNKNOWN</action_evaluation>"
